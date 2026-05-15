@@ -1,5 +1,16 @@
 {
+  "type": "module",
+  "scripts": {
+    "pipeline": "node scripts/v2-pipeline.mjs",
+    "pipeline:refresh": "node scripts/v2-pipeline.mjs --prompt=refresh",
+    "pipeline:cleanup": "node scripts/v2-pipeline.mjs --prompt=cleanup",
+    "pipeline:geo": "node scripts/v2-pipeline.mjs --prompt=geo",
+    "pipeline:newsletter": "node scripts/v2-pipeline.mjs --prompt=newsletter"
+  },
   "dependencies": {
     "csv-parse": "^6.1.0"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
   }
 }

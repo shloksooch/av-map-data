@@ -30,3 +30,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+
+# V2 pipeline transient outputs (review locally, do not commit)
+pipeline-out/
+.venv/
