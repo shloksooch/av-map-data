@@ -299,6 +299,40 @@ Once you have a GeoJSON file:
 
 **Note:** Both `Polygon` and `MultiPolygon` geometry types work. Tools like geojson.io will create the correct format automatically.
 
+## Safety incidents (`incidents.csv`)
+
+`incidents.csv` is a separate, additive dataset for safety-relevant
+events: crashes, near misses, recalls, investigations, and regulatory
+actions. It is intentionally kept apart from `events.csv` (deployment
+state) so the two never conflate. Only publicly reported, verifiable
+incidents from established sources should be added, and every row must
+include a working `source_url`.
+
+### Columns (10 total)
+
+| # | Column | Description | Example |
+|---|--------|-------------|---------|
+| 1 | `date` | ISO `YYYY-MM-DD` | `2023-10-02` |
+| 2 | `company` | Must match a `company` value used in `events.csv` | `Cruise` |
+| 3 | `city` | Match `events.csv` city when possible | `San Francisco` |
+| 4 | `incident_type` | One of: `crash`, `near_miss`, `stranded`, `recall`, `investigation`, `regulatory_action`, `software_issue`, `other` | `crash` |
+| 5 | `severity` | One of: `minor`, `moderate`, `serious`, `fatal`, `property_damage_only`, `unknown` | `serious` |
+| 6 | `injuries` | Integer, `0` if none, blank if unknown | `1` |
+| 7 | `fatalities` | Integer, `0` if none | `0` |
+| 8 | `source_type` | One of: `nhtsa_sgo`, `state_dot`, `company_blog`, `news_report`, `ntsb`, `court_filing` | `news_report` |
+| 9 | `source_url` | Link to the primary source | `https://...` |
+| 10 | `summary` | 1-2 sentences, max 300 chars. Quote if it contains commas. | `"A Cruise robotaxi dragged a pedestrian..."` |
+
+### Rules
+
+- **Verifiable only.** No rumor, no social-media-only reports. NHTSA SGO,
+  NTSB, state DOT, court filings, company posts, or established news.
+- **Do not editorialize.** State what happened and let the source speak.
+  We are logging incidents transparently, not scoring operators.
+- **One incident per row.** A recall covering many cities is still one row
+  (use the headquarters/primary city).
+- Keep `incidents.csv` independent of `events.csv` — do not cross-write.
+
 ## Validation (Optional)
 
 Want to test your changes locally before submitting? Run:
